@@ -1,0 +1,4 @@
+pillow
+nbtschematic
+PySide2
+numpy
