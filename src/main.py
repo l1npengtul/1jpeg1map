@@ -1,10 +1,8 @@
 from dataclasses import dataclass
-from PySide2 import QtCore, QtWidgets, QtGui
-from PySide2.QtCore import QFile, QObject, Signal, Slot, SIGNAL, QThread
-from PySide2.QtWidgets import QMessageBox
+from PySide2 import QtWidgets, QtGui
+from PySide2.QtCore import QRect
 from nbtschematic import SchematicFile
 from main_window import Ui_Dialog
-import numpy as np
 from PIL import Image
 from PIL.ImageQt import ImageQt
 import math, sys, threading, time
@@ -13,6 +11,8 @@ import block_rgb_definitions
 '''
 i l o v e e m i l i a
 rem is cute too :3
+
+chika is yes
 '''
 
 
@@ -26,8 +26,7 @@ class Block:
     pos_z: int
 
 # NOTE: THIS IS FOR MINECRAFT JAVA 1.12.2
-# NOTE: if list has a value other than tuple, it is a block data
-# save it using schematic.data[x,y,z] = <data>
+
 data_cache = {}
 
 data_cache_2 = {}
@@ -113,8 +112,6 @@ class ImageToMinecraft(QtWidgets.QMainWindow, Ui_Dialog):
 
         self.scale = 1.0
 
-        self.ui.imageLabel.setScaledContents(True)
-
         # LMAO why fix things when you can just remove them XD
         # self.ui.progressBar.setValue(100)
         self.ui.barLabel.setText(f"")
@@ -170,8 +167,6 @@ class ImageToMinecraft(QtWidgets.QMainWindow, Ui_Dialog):
             self.inputSelect = 1
             self.disableEnableAll(False)
             thread = threading.Thread(target=self.generatePreviewList, args=(filename,))
-            if thread.is_alive():
-                print("yes")
             thread.start()
 
     def openFileExplorer_output(self):
@@ -211,7 +206,7 @@ class ImageToMinecraft(QtWidgets.QMainWindow, Ui_Dialog):
 
             im2 = Image.new(preview_img.mode, preview_img.size)
             im2.putdata(self.currentPreviewImageMCList)
-            self.ui.imageLabel.setScaledContents(True)
+            self.ui.imageLabel_2.setGeometry(QRect(10, 10, image_x, image_y))
             self.ui.imageLabel_2.setPixmap(QtGui.QPixmap.fromImage(ImageQt(im2)))
             self.ui.imgOutSizeX.setText(f"X: {image_x}")
             self.ui.imgOutSizeY.setText(f"Y: {image_y}")
@@ -247,8 +242,8 @@ class ImageToMinecraft(QtWidgets.QMainWindow, Ui_Dialog):
                 self.ui.barLabel.setText("ERROR")
                 sys.exit()
             image_x, image_y = process_img.size
-            sf_output = SchematicFile(shape=(image_y + 3, image_y + 3, image_x + 3))
-            b_dat = []
+            #sf_output = SchematicFile(shape=(image_y + 3, image_y + 3, image_x + 3))
+            #b_dat = []
             self.disableEnableAll(True)
 
 
