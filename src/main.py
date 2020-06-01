@@ -123,7 +123,8 @@ class ImageToMinecraft(QtWidgets.QMainWindow, Ui_Dialog):
         # Image
 
         self.show()
-
+    # Yes, im not using proper QThreads. I know.
+    # Dont crucify me. It had to be done
     def preGen(self):
         thread = threading.Thread(target=self.generateSchematic, args=(self.currentImageFilename, self.currentOutputDir, self.useFlat,))
         if thread.is_alive():
